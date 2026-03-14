@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Futebol</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+<div class="logo">EGz GamerInfoZOone</div>
+
+<div class="menu">
+
+<a href="/">Inicio</a>
+<a href="/futebol">Futebol</a>
+<a href="/aventura">Aventura</a>
+<a href="/tiro">Tiro</a>
+
+</div>
+
+
+<div class="search">
+
+<form>
+
+<input type="text" name="q" placeholder="Pesquisar jogo">
+
+<button type="submit">Pesquisar</button>
+
+</form>
+
+</div>
+
+
+<div class="jogos">
+
+{% for jogo in jogos %}
+
+<div class="card">
+
+<img src="/{{ jogo.imagem }}">
+
+<h3>{{ jogo.titulo }}</h3>
+
+<p>{{ jogo.requisitos }}</p>
+
+<a href="{{ jogo.link }}">Download</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

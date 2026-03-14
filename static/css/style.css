@@ -1,0 +1,146 @@
+/* ===== Body e fundo geral ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-image: url("/static/images/InShot_20260314_110947730.jpg"); /* NOVA IMAGEM DE FUNDO */
+    background-size: cover;        /* cobre toda a tela */
+    background-position: center;   /* centraliza a imagem */
+    background-attachment: fixed;  /* fixa ao rolar */
+}
+
+/* ===== Banner central na tela inicial ===== */
+.banner-container {
+    text-align: center;
+    margin-top: 50px;
+    position: relative;
+}
+
+.banner-container img {
+    width: 90%;
+    max-width: 1024px;
+    border-radius: 15px;
+}
+
+/* Logo animado sobre o banner */
+.banner-container .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    font-weight: bold;
+    background: linear-gradient(90deg, red, orange, yellow, lime, cyan);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 8px black;
+    animation: neonGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow {
+    from { text-shadow: 0 0 5px #fff, 0 0 10px red, 0 0 20px orange, 0 0 30px yellow; }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px lime, 0 0 30px cyan, 0 0 40px blue; }
+}
+
+/* ===== Menu ===== */
+.menu {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    background: #000000aa;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    background: lime;
+    color: black;
+}
+
+/* ===== Popup Termos e Políticas ===== */
+#termos-popup {
+    display: none; /* aparece via JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    color: white;
+    z-index: 9999;
+    text-align: center;
+    padding-top: 150px;
+}
+
+#termos-popup button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    background: lime;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* ===== Pesquisa ===== */
+.search {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.search input {
+    padding: 10px;
+    width: 60%;
+    border-radius: 6px;
+    border: none;
+}
+
+.search button {
+    padding: 10px;
+    border: none;
+    background: lime;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ===== Jogos cards ===== */
+.jogos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.card {
+    background: #000000aa;
+    margin: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background: #111111dd;
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.card a {
+    text-decoration: none;
+    color: lime;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 5px;
+}

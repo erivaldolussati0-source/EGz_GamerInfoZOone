@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>EGz GamerInfoZOone - PSP Gamer</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="overlay">
+<h1 class="logo">EGz GamerInfoZOone</h1>
+<p class="subtitle">PSP Gamer</p>
+
+<div class="games">
+{% for jogo in jogos %}
+<div class="card">
+<img src="{{ jogo.imagem }}">
+<p>{{ jogo.titulo }}</p>
+<p>{{ jogo.requisitos }}</p>
+<a href="{{ jogo.link }}" target="_blank">Baixar</a>
+</div>
+{% endfor %}
+</div>
+</div>
+</body>
+</html>
