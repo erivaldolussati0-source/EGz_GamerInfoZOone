@@ -1,93 +1,89 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import os
+import json
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = "static/uploads"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+# Pasta para salvar imagens enviadas pelo admin
+UPLOAD_FOLDER = 'static/uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-futebol = []
-aventura = []
-tiro = []
+# Arquivos JSON para cada categoria
+FILES = {
+    "Futebol": "jogos_futebol.json",
+    "Tiro": "jogos_tiro.json",
+    "Aventura": "jogos_aventura.json"
+}
+
+# Carregar dados dos arquivos JSON
+def load_json(file):
+    try:
+        with open(file) as f:
+            return json.load(f)
+    except:
+        return []
+
+# Salvar dados nos arquivos JSON
+def save_json(file, data):
+    with open(file, "w") as f:
+        json.dump(data, f)
+
+# Inicializar dados
+jogos = {cat: load_json(f) for cat, f in FILES.items()}
+
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    pesquisa = request.args.get("q", "")
+    resultados = []
+    for categoria, lista in jogos.items():
+        for j in lista:
+            if pesquisa.lower() in j["titulo"].lower():
+                resultados.append(j)
+    return render_template("index.html", jogos=resultados, pesquisa=pesquisa)
 
 
-@app.route("/futebol")
-def futebol_page():
-
-    pesquisa = request.args.get("q")
-
-    jogos = futebol
-
+@app.route("/<categoria>")
+def categoria_page(categoria):
+    categoria_cap = categoria.capitalize()
+    if categoria_cap not in jogos:
+        return "Categoria não encontrada", 404
+    pesquisa = request.args.get("q", "")
+    lista = jogos[categoria_cap]
     if pesquisa:
-        jogos = [j for j in futebol if pesquisa.lower() in j["titulo"].lower()]
-
-    return render_template("futebol.html", jogos=jogos)
-
-
-@app.route("/aventura")
-def aventura_page():
-
-    pesquisa = request.args.get("q")
-
-    jogos = aventura
-
-    if pesquisa:
-        jogos = [j for j in aventura if pesquisa.lower() in j["titulo"].lower()]
-
-    return render_template("aventura.html", jogos=jogos)
+        lista = [j for j in lista if pesquisa.lower() in j["titulo"].lower()]
+    return render_template(f"{categoria}.html", jogos=lista, categoria=categoria_cap, pesquisa=pesquisa)
 
 
-@app.route("/tiro")
-def tiro_page():
-
-    pesquisa = request.args.get("q")
-
-    jogos = tiro
-
-    if pesquisa:
-        jogos = [j for j in tiro if pesquisa.lower() in j["titulo"].lower()]
-
-    return render_template("tiro.html", jogos=jogos)
-
-
-@app.route("/egzadmin", methods=["GET","POST"])
+@app.route("/egzadmin", methods=["GET", "POST"])
 def admin():
-
     if request.method == "POST":
-
         categoria = request.form["categoria"]
         titulo = request.form["titulo"]
-        link = request.form["link"]
         requisitos = request.form["requisitos"]
+        imagem_file = request.files["imagem"]
 
-        imagem = request.files["imagem"]
+        if imagem_file:
+            filename = secure_filename(imagem_file.filename)
+            caminho = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            imagem_file.save(caminho)
+        else:
+            filename = ""
 
-        caminho = os.path.join(app.config["UPLOAD_FOLDER"], imagem.filename)
-        imagem.save(caminho)
-
-        jogo = {
+        novo_jogo = {
             "titulo": titulo,
-            "imagem": caminho,
-            "link": link,
+            "imagem": f"/{caminho}" if filename else "",
             "requisitos": requisitos
         }
 
-        if categoria == "Futebol":
-            futebol.append(jogo)
+        jogos[categoria].append(novo_jogo)
+        save_json(FILES[categoria], jogos[categoria])
 
-        if categoria == "Aventura":
-            aventura.append(jogo)
+        return redirect(url_for('categoria_page', categoria=categoria.lower()))
 
-        if categoria == "Tiro":
-            tiro.append(jogo)
-
-        return redirect("/")
-
-    return render_template("admin.html")
+    return render_template("admin.html", categorias=list(FILES.keys()))
 
 
 if __name__ == "__main__":
