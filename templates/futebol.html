@@ -1,60 +1,52 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="pt">
 <head>
-
-<title>Futebol</title>
-
-<link rel="stylesheet" href="/static/css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ categoria }} - EGz GamerInfoZOone</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
 
-<div class="logo">EGz GamerInfoZOone</div>
+    <!-- Header com nome do canal e barra de pesquisa -->
+    <header>
+        <h1>EGz GamerInfoZOone</h1>
+        <div class="search-container">
+            <form method="get" action="{{ url_for('categoria_page', categoria=categoria.lower()) }}">
+                <input type="text" name="q" placeholder="Pesquisar jogos..." value="{{ pesquisa }}">
+                <button type="submit">🔍</button>
+            </form>
+        </div>
+    </header>
 
-<div class="menu">
+    <!-- Menu de categorias -->
+    <nav class="menu">
+        <a href="{{ url_for('categoria_page', categoria='futebol') }}">Futebol</a>
+        <a href="{{ url_for('categoria_page', categoria='aventura') }}">Aventura</a>
+        <a href="{{ url_for('categoria_page', categoria='tiro') }}">Tiro</a>
+        <a href="{{ url_for('index') }}">Todos</a>
+    </nav>
 
-<a href="/">Inicio</a>
-<a href="/futebol">Futebol</a>
-<a href="/aventura">Aventura</a>
-<a href="/tiro">Tiro</a>
+    <!-- Container de jogos -->
+    <div class="container">
+        {% for jogo in jogos %}
+        <div class="card">
+            <h2>{{ jogo.titulo }}</h2>
 
-</div>
+            {% if jogo.imagem %}
+            <img src="{{ url_for('static', filename='uploads/' + jogo.imagem) }}" alt="{{ jogo.titulo }}" class="jogo">
+            {% endif %}
 
+            <p>Requisitos: {{ jogo.requisitos }}</p>
 
-<div class="search">
-
-<form>
-
-<input type="text" name="q" placeholder="Pesquisar jogo">
-
-<button type="submit">Pesquisar</button>
-
-</form>
-
-</div>
-
-
-<div class="jogos">
-
-{% for jogo in jogos %}
-
-<div class="card">
-
-<img src="/{{ jogo.imagem }}">
-
-<h3>{{ jogo.titulo }}</h3>
-
-<p>{{ jogo.requisitos }}</p>
-
-<a href="{{ jogo.link }}">Download</a>
-
-</div>
-
-{% endfor %}
-
-</div>
+            {% if jogo.download %}
+            <a href="{{ url_for('static', filename='uploads/' + jogo.download) }}" class="button" download>
+                Download
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
 
 </body>
 </html>

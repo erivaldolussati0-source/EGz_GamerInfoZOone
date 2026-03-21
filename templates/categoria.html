@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EGz GamerInfoZOone</title>
+<title>{{ categoria }} - EGz GamerInfoZOone</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
 <header>
-    <h1>EGz GamerInfoZOone</h1>
-    <form method="get" action="{{ url_for('index') }}">
+    <h1>{{ categoria }} - EGz GamerInfoZOone</h1>
+    <form method="get">
         <input type="text" name="q" value="{{ pesquisa }}" placeholder="Pesquisar jogo...">
         <button type="submit">🔍</button>
     </form>
@@ -34,7 +34,7 @@
 
         <p>{{ jogo.requisitos }}</p>
 
-        <!-- BOTÃO DOWNLOAD INTELIGENTE -->
+        <!-- BOTÃO DOWNLOAD -->
         {% if jogo.download %}
         <a href="{{ url_for('static', filename='uploads/' + jogo.download) }}" class="button" download>
             ⬇️ Download

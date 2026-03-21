@@ -1,47 +1,62 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="pt">
 <head>
-
-<title>Admin EGz</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin EGz GamerInfoZOone</title>
 </head>
-
 <body>
 
 <h1>Admin EGz GamerInfoZOone</h1>
 
+<!-- Adicionar jogo -->
+<h2>Adicionar Jogo</h2>
 <form method="POST" enctype="multipart/form-data">
+    <select name="categoria">
+        <option>Futebol</option>
+        <option>Aventura</option>
+        <option>Tiro</option>
+    </select><br><br>
 
-<select name="categoria">
+    <input type="text" name="titulo" placeholder="Nome do jogo"><br><br>
+    <input type="file" name="imagem"><br><br>
+    <input type="file" name="download"><br><br>
 
-<option>Futebol</option>
-<option>Aventura</option>
-<option>Tiro</option>
+    <!-- NOVO CAMPO -->
+    <input type="text" name="link" placeholder="Link de download (opcional)"><br><br>
 
-</select>
+    <textarea name="requisitos" placeholder="Requisitos"></textarea><br><br>
 
-<br><br>
-
-<input type="text" name="titulo" placeholder="Nome do jogo">
-
-<br><br>
-
-<input type="file" name="imagem">
-
-<br><br>
-
-<input type="text" name="link" placeholder="Link download">
-
-<br><br>
-
-<textarea name="requisitos" placeholder="Requisitos"></textarea>
-
-<br><br>
-
-<button type="submit">Publicar</button>
-
+    <button type="submit">Publicar</button>
 </form>
+
+<hr>
+
+<!-- Remover jogo -->
+<h2>Remover Jogo</h2>
+<form method="POST">
+    <select name="categoria">
+        <option>Futebol</option>
+        <option>Aventura</option>
+        <option>Tiro</option>
+    </select><br><br>
+
+    <input type="text" name="nome_jogo" placeholder="Nome do jogo"><br><br>
+    <button type="submit" name="remover">Remover</button>
+</form>
+
+<hr>
+
+<!-- Lista de jogos -->
+<h2>Jogos Atuais</h2>
+{% for cat, lista in jogos.items() %}
+<h3>{{ cat }}</h3>
+<ul>
+    {% for j in lista %}
+    <li>{{ j.titulo }}</li>
+    {% endfor %}
+</ul>
+{% endfor %}
 
 </body>
 </html>
