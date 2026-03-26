@@ -34,15 +34,22 @@
 
         <p>{{ jogo.requisitos }}</p>
 
-        <!-- BOTÃO DOWNLOAD -->
+        <!-- 🔥 TEXTO DE CONVERSÃO -->
+        <p style="color: yellow; font-weight: bold;">
+        🔥 Clique no botão abaixo para desbloquear o download
+        </p>
+
+        <!-- 💰 BOTÃO FUNCIONAL -->
         {% if jogo.download %}
-        <a href="{{ url_for('static', filename='uploads/' + jogo.download) }}" class="button" download>
-            ⬇️ Download
+        <a href="#" class="button"
+           onclick="abrirDownload('{{ url_for('static', filename='uploads/' + jogo.download) }}')">
+           ⬇️ Baixar Agora
         </a>
 
         {% elif jogo.link %}
-        <a href="{{ jogo.link }}" class="button" target="_blank">
-            🔗 Download
+        <a href="#" class="button"
+           onclick="abrirDownload('{{ jogo.link }}')">
+           ⬇️ Baixar Agora
         </a>
         {% endif %}
 
@@ -50,7 +57,20 @@
     {% endfor %}
 </div>
 
-<!-- 🔥 ANÚNCIO ADSTERRA (POPUNDER) -->
+<!-- 🔥 SCRIPT SMARTLINK + DOWNLOAD -->
+<script>
+function abrirDownload(link) {
+    // abre anúncio
+    window.open('https://www.profitablecpmratenetwork.com/avgc603hze?key=6b02b878c91e5a6f1113064860be646f', '_blank');
+
+    // depois abre download
+    setTimeout(function() {
+        window.location.href = link;
+    }, 1500);
+}
+</script>
+
+<!-- 🔥 POPUNDER (MANTÉM) -->
 <script src="https://pl28973604.profitablecpmratenetwork.com/96/43/91/964391712b3addc82bb3c1fc41a74adb.js"></script>
 
 </body>
